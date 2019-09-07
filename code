@@ -1,0 +1,35 @@
+
+# Difference in proportions 
+modelDF <- "
+data {
+  # Number of trials
+  int nA;
+  int nB;
+  # Number of successes
+  int yA;
+  int yB;
+}
+parameters {
+  real<lower=0, upper=1> pA;
+  real<lower=0, upper=1> pB;
+}
+model {
+  pA ~ beta(3,25);
+  pB ~ beta(3,25);
+  yA ~ binomial(nA, pA);
+  yB ~ binomial(nB, pB); 
+}
+generated quantities {
+  real p_diff;
+  p_diff = pB - pA;
+}
+"
+data_list <- list(nA = 600, nB = 750, yA = 72, yB = 120)
+
+stan_samplesDF <- stan(model_code = modelDF, data = data_list,
+                       seed = 3566543)
+stan_samplesDF
+plot(stan_samplesDF)
+
+posterior <- as.data.frame(stan_samplesDF) ;head(posterior)
+sum(posterior$p_diff > 0) / length(posterior$p_diff)

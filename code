@@ -33,3 +33,6 @@ plot(stan_samplesDF)
 
 posterior <- as.data.frame(stan_samplesDF) ;head(posterior)
 sum(posterior$p_diff > 0) / length(posterior$p_diff)
+
+# So version B is estimated to be higher than version A with around
+# 98.25% probability

@@ -1,4 +1,9 @@
 
+
+library(rstan)
+
+
+
 # Difference in proportions 
 modelDF <- "
 data {
